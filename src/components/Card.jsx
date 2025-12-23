@@ -1,12 +1,28 @@
+import PropTypes from 'prop-types';
+import './Card.css'
 
+const Card = ({id, message, likesCount, boardId, onAddLike}) => {
+    const handleAddLikes = () => {
+        onAddLike(id);
+        console.log(`This post id is ${id}`);
+    };
 
-const Card = ({message, likesCount, }) => {
     return <>
-    <div>
+    <article className='card--style'>
         <h2>
         {message}
-        {likesCount} ❤️
-        </h2></div></>
+        <div className='footer--style'>
+            {likesCount} <button onClick={handleAddLikes}>❤️</button>
+        </div>
+        </h2></article></>
+};
+
+Card.propTypes = {
+    id: PropTypes.number.isRequired,
+    message: PropTypes.string.isRequired,
+    likesCount: PropTypes.number.isRequired,
+    boardId: PropTypes.number.isRequired,
+    onAddLike: PropTypes.func.isRequired,
 };
 
 export default Card;

@@ -1,0 +1,28 @@
+.submitButton {
+    border-radius: 2rem;
+    border: none;
+    background-color: rgb(221, 164, 50);
+    padding: 1rem;
+}
+
+.inputField {
+    border-radius: 2rem;
+    border-style: none;
+    background-color: rgb(237, 237, 237);
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-top: .25rem;
+    padding-bottom: .25rem;
+    margin: .5rem;
+}
+
+select {
+    margin: .5rem;
+    border-radius: 2rem;
+    border-style: none;
+    background-color: rgb(237, 237, 237);
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-top: .25rem;
+    padding-bottom: .25rem;
+}
