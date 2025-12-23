@@ -19,3 +19,15 @@ const Board = ({ board, onBoardSelect, isSelected }) => {
         </div>
     );
 };
+
+Board.propTypes = {
+    board: PropTypes.shape({
+        board_id: PropTypes.number.isRequired,
+        title: PropTypes.string.isRequired,
+        owner: PropTypes.string.isRequired,
+    }).isRequired,
+    onBoardSelect: PropTypes.func.isRequired,
+    isSelected: PropTypes.bool.isRequired,
+};
+
+export default Board;

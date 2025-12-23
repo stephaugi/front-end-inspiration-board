@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import PropTypes from 'prop-types';
+import './NewBoardForm.css';
 
 const kDefaultBoardForm = {
     title: '',
@@ -60,4 +62,8 @@ return <>
     </>;
 };
     
-    export default NewBoardForm;
+NewBoardForm.propTypes = {
+    onFormSubmit: PropTypes.func.isRequired
+};  
+
+export default NewBoardForm;
