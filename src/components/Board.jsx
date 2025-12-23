@@ -20,6 +20,7 @@ const Board = ({ board, onBoardSelect, isSelected }) => {
     );
 };
 
+// PropTypes 
 Board.propTypes = {
     board: PropTypes.shape({
         board_id: PropTypes.number.isRequired,

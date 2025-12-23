@@ -61,7 +61,7 @@ return <>
         </section>
     </>;
 };
-    
+
 NewBoardForm.propTypes = {
     onFormSubmit: PropTypes.func.isRequired
 };  
