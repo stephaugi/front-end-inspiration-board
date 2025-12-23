@@ -2,6 +2,9 @@ import { useState } from 'react';
 import './App.css';
 import NewCardForm from './components/NewCardForm';
 import Card from './components/Card';
+import NewBoardForm from './components/NewBoardForm';
+import Board from './components/Board';
+
 
 const VITE_APP_BACKEND_URL = import.meta.env.VITE_APP_BACKEND_URL
 
@@ -28,18 +31,24 @@ const cardTest = {
     boardId: 2,
 };
 
+
+// board_id or id ?
 const boardsData = [
     {
         id: 456,
-        title: 'board1'
+        title: 'board1',
+        owner: 'owner1'
     },
     {
         id: 2,
-        title: 'board2'
+        title: 'board2',
+        owner: 'owner2'
     },
     {
         id:3,
-        title: 'board3'
+        title: 'board3',
+        owner: 'owner3'
+        
     }
 ]
 
@@ -51,7 +60,22 @@ const getAllCards = (boardId) => {
 
 function App() {
   const [cardsData, setCardsData] = useState([cardTest]);
+
+  // for testing ,do we want to change this ?
+  const [boardsData, setBoardsData] = useState();
+  const [selectedBoardId, setSelectedBoardId] = useState(null);
   
+  // Board related functions
+  const createNewBoard = (inputData) => {
+    console.log(inputData);
+    return setBoardsData(prevBoardsData => [inputData, ...prevBoardsData]);
+  };
+
+  const selectBoard = (boardId) => {
+    setSelectedBoardId(boardId);
+    getAllCards(boardId);
+  };
+
   const createNewCard = (inputData) => {
     console.log(inputData);
     return setCardsData(prevCardsData => [inputData, ...prevCardsData]);
@@ -67,6 +91,17 @@ function App() {
   }
 )};
 
+  const boards = boardsData.map(boardData => {
+    return <Board 
+      key={boardData.board_id}
+      boardId={boardData.board_id}
+      title={boardData.title}
+      owner={boardData.owner}
+      isSelected={selectedBoardId === boardData.board_id}
+      onBoardSelect={selectBoard}
+    />;
+  });
+
   const cards = cardsData.map(cardData => {
     return <Card 
     key={cardData.id}
@@ -79,13 +114,19 @@ function App() {
   });
 
   return (<>
+    <div className='boardFormLayout'>
+      <NewBoardForm onFormSubmit={createNewBoard} />
+    </div>
+    <div className='boardContainer'>
+      {boards}
+    </div>
+
     <div className='cardFormLayout'>
       <NewCardForm onFormSubmit={createNewCard} boards={boardsData} />
     </div>
     <div className='cardContainer'>
       {cards}
     </div>
-  
   </>
   )
 }
