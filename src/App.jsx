@@ -4,6 +4,8 @@ import NewCardForm from './components/NewCardForm';
 import Card from './components/Card';
 import NewBoardForm from './components/NewBoardForm';
 import Board from './components/Board';
+import Modal from './components/Modal';
+import Drawer from './components/drawer';
 
 
 const VITE_APP_BACKEND_URL = import.meta.env.VITE_APP_BACKEND_URL
@@ -25,11 +27,21 @@ const VITE_APP_BACKEND_URL = import.meta.env.VITE_APP_BACKEND_URL
 // }
 
 const cardTest = {
-    id: 1,
+    id: 1523,
     message: 'this is a card',
     likesCount: 5,
     boardId: 2,
 };
+
+// api boards/1/cards get request response
+// [
+//     {
+//         "board_id": 1,
+//         "id": 5,
+//         "likes_count": 0,
+//         "message": "AI but make it super cool 😎"
+//     },
+// ]
 
 
 // board_id or id ?
@@ -48,7 +60,6 @@ const boardsDataTest = [
         id:23626,
         title: 'board3',
         owner: 'owner3'
-        
     }
 ];
 
@@ -100,9 +111,9 @@ function App() {
     />;
   });
 
-  const cards = cardsData.map(cardData => {
+  const cards = cardsData.map((cardData, i) => {
     return <Card 
-      key={cardData.id}
+      key={i}
       card={cardData}
       onAddLike={addLikes}
     />;
@@ -117,11 +128,14 @@ function App() {
     </div>
 
     <div className='cardFormLayout'>
-      <NewCardForm onFormSubmit={createNewCard} boards={boardsData} />
+      {/* <NewCardForm onFormSubmit={createNewCard} boards={boardsData} /> */}
     </div>
     <div className='cardContainer'>
       {cards}
     </div>
+    <Modal
+    onFormSubmit={createNewCard} boards={boardsData}/>
+    <Drawer />
   </>
   )
 }
