@@ -5,7 +5,6 @@ import Card from './components/Card';
 import NewBoardForm from './components/NewBoardForm';
 import Board from './components/Board';
 import Modal from './components/Modal';
-import Drawer from './components/drawer';
 
 
 const VITE_APP_BACKEND_URL = import.meta.env.VITE_APP_BACKEND_URL
@@ -135,7 +134,6 @@ function App() {
     </div>
     <Modal
     onFormSubmit={createNewCard} boards={boardsData}/>
-    <Drawer />
   </>
   )
 }
