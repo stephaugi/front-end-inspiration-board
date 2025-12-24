@@ -33,24 +33,24 @@ const cardTest = {
 
 
 // board_id or id ?
-const boardsData = [
+const boardsDataTest = [
     {
-        id: 456,
+        id: 42376,
         title: 'board1',
         owner: 'owner1'
     },
     {
-        id: 2,
+        id: 2345,
         title: 'board2',
         owner: 'owner2'
     },
     {
-        id:3,
+        id:23626,
         title: 'board3',
         owner: 'owner3'
         
     }
-]
+];
 
 const getAllCards = (boardId) => {
   // api call that returns cards based on ID
@@ -62,7 +62,7 @@ function App() {
   const [cardsData, setCardsData] = useState([cardTest]);
 
   // for testing ,do we want to change this ?
-  const [boardsData, setBoardsData] = useState();
+  const [boardsData, setBoardsData] = useState(boardsDataTest);
   const [selectedBoardId, setSelectedBoardId] = useState(null);
   
   // Board related functions
@@ -93,23 +93,18 @@ function App() {
 
   const boards = boardsData.map(boardData => {
     return <Board 
-      key={boardData.board_id}
-      boardId={boardData.board_id}
-      title={boardData.title}
-      owner={boardData.owner}
-      isSelected={selectedBoardId === boardData.board_id}
+      key={boardData.id}
+      board={boardData}
+      isSelected={selectedBoardId === boardData.id}
       onBoardSelect={selectBoard}
     />;
   });
 
   const cards = cardsData.map(cardData => {
     return <Card 
-    key={cardData.id}
-    id={cardData.id}
-    message={cardData.message}
-    likesCount={cardData.likesCount}
-    boardId={cardData.boardId}
-    onAddLike={addLikes}
+      key={cardData.id}
+      card={cardData}
+      onAddLike={addLikes}
     />;
   });
 

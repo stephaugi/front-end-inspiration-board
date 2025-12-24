@@ -1,7 +1,8 @@
 import PropTypes from 'prop-types';
 import './Card.css'
 
-const Card = ({id, message, likesCount, boardId, onAddLike}) => {
+const Card = ({card, onAddLike}) => {
+    const {id, message, likesCount, boardId} = card
     const handleAddLikes = () => {
         onAddLike(id);
         console.log(`This post id is ${id}`);
@@ -18,10 +19,14 @@ const Card = ({id, message, likesCount, boardId, onAddLike}) => {
 };
 
 Card.propTypes = {
-    id: PropTypes.number.isRequired,
-    message: PropTypes.string.isRequired,
-    likesCount: PropTypes.number.isRequired,
-    boardId: PropTypes.number.isRequired,
+    card: PropTypes.shape(
+        {
+        id: PropTypes.number.isRequired,
+        message: PropTypes.string.isRequired,
+        likesCount: PropTypes.number.isRequired,
+        boardId: PropTypes.number.isRequired,
+        }
+    ),
     onAddLike: PropTypes.func.isRequired,
 };
 

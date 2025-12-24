@@ -1,3 +1,5 @@
+import PropTypes from "prop-types";
+
 const Board = ({ board, onBoardSelect, isSelected }) => {
     // board = { board_id: 1, title: "...", owner: "..." }
     // onBoardSelect = function to call when clicked
