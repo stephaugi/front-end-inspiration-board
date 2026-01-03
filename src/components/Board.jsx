@@ -1,9 +1,8 @@
 import PropTypes from "prop-types";
+import './Board.css';
+import Card from './Card';
 
 const Board = ({ boardId, cardsData, addLikes }) => {
-    // board = { board_id: 1, title: "...", owner: "..." }
-    // onBoardSelect = function to call when clicked
-    // isSelected = boolean, true if this board is currently selected
 
     const cards = cardsData.map((cardData) => {
     return <Card 
@@ -16,7 +15,9 @@ const Board = ({ boardId, cardsData, addLikes }) => {
         <>
             {/* <h4>{board.title}</h4>
             <p>Owner: {board.owner}</p> */}
-            {cards}
+            <div className='cardContainer'>
+                {cards}
+            </div>
         </>
     );
 };

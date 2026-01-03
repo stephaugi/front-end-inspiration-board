@@ -91,8 +91,8 @@ const convertCardFromAPI = (apiCard) => {
     likesCount: apiCard.likes_count ? apiCard.likes_count : null,
     boardId: apiCard.board_id
   };
-  delete newCard.likes_count;
-  delete newCard.board_id
+  // delete newCard.likes_count;
+  // delete newCard.board_id
 
   return newCard;
 };
@@ -101,9 +101,10 @@ const getAllCardsAPI = (boardId) => {
   return axios.get(`${VITE_APP_BACKEND_URL}/boards/${boardId}/cards`)
   .then(response => {
     const result = response.data
-    result.map(card => {
-      return convertCardFromAPI(card)
-    })
+    return result.map(card => {
+      const convertedCard = convertCardFromAPI(card)
+      return convertedCard;
+    });
   })
   .catch(error => console.log(error));
 };
@@ -133,24 +134,25 @@ function App() {
   const [boardsData, setBoardsData] = useState([]);
   const [selectedBoardId, setSelectedBoardId] = useState([]);
   
-  const getAllCards = () => {
-    // api call that returns cards based on ID
-    // update cards data with response.data
-    return getAllCardsAPI(selectedBoardId)
-      .then(response => setCardsData(response))
-      .catch(error => console.log(error));
-  };
-  
-
   useEffect(() => {
     getAllBoardsAPI()
     .then(boards => {
       const newBoards = boards.map(convertBoardFromAPI);
       setBoardsData(newBoards);
-      setSelectedBoard(newBoards[0]); 
+      setSelectedBoardId(newBoards[0]); 
     });
     // .then(setCardsData(getAllCards(selectedBoardId)));
   }, []);
+
+  const getAllCards = (boardId) => {
+    // api call that returns cards based on ID
+    // update cards data with response.data
+    return getAllCardsAPI(boardId)
+      .then(response => {
+        return setCardsData(response)})
+      .catch(error => console.log(error));
+  };
+  
 
 
   // useEffect(() => {
@@ -171,13 +173,11 @@ function App() {
     const inputName = event.target.name;
     const inputValue = event.target.value;
     setSelectedBoardId(inputValue);
-    getAllCards(inputValue)
-      .then(cards => setCardsData(cards));
+    getAllCards(inputValue);
   };
 
 
   const createNewCard = (inputData) => {
-    console.log(inputData);
     return setCardsData(prevCardsData => [inputData, ...prevCardsData]);
   };
 
@@ -204,17 +204,13 @@ function App() {
     {selectOptions}
     </select>;
   };
-  const boards = boardsData.map(board => {
-    return <Board 
-      key={board.id}
-      boardId={board.id}
-      cardsData={cardsData}
-      addLikes={addLikes}
-    />;
-  });
+  const boards = <Board 
+        key={selectedBoardId}
+        boardId={selectedBoardId}
+        cardsData={cardsData}
+        addLikes={addLikes}
+      />;
   
-  {selectedBoard ? boards : ''}
-
 
   return (<>
     <div className='boardFormLayout'>
@@ -224,13 +220,7 @@ function App() {
     <div className='boardContainer'>
       {makeControlledSelect('boards', boardsData)}
     </div>
-
-    <div className='cardFormLayout'>
-      {/* <NewCardForm onFormSubmit={createNewCard} boards={boardsData} /> */}
-    </div>
-    {/* <div className='cardContainer'>
-      {cards}
-    </div> */}
+    {boards}
     <Modal
     onFormSubmit={createNewCard} boards={boardsData}/>
   </>
