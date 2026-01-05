@@ -25,20 +25,7 @@ const NewCardForm = ({ onFormSubmit, boards }) => {
         </>
     };
 
-    const makeControlledSelect = (inputName, boards) => {
-        // get list of boards, input id as value and board title as the display
-        const selectOptions = boards.map(board => {
-            return <option
-            className='selectBoard'
-            key={board.id}
-            value={board.id}>
-                {board.title}
-            </option>
-        });
-        return <select name={inputName} onChange={updateFormChange}>
-        {selectOptions}
-        </select>;
-    };
+
 
     const updateFormChange = (event) => {
         const inputName = event.target.name;
@@ -66,8 +53,8 @@ const NewCardForm = ({ onFormSubmit, boards }) => {
             </div>
             <div>
                 <label htmlFor={'inputmessage'}>
-                    Board
-                    {makeControlledSelect('boardId', boards)}
+                    {/* Board
+                    {makeControlledSelect('boardId', boards)} */}
                 </label>
             </div>
         </div>

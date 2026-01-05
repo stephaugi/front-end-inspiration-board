@@ -1,36 +1,32 @@
 import PropTypes from "prop-types";
+import './Board.css';
+import Card from './Card';
 
-const Board = ({ board, onBoardSelect, isSelected }) => {
-    // board = { board_id: 1, title: "...", owner: "..." }
-    // onBoardSelect = function to call when clicked
-    // isSelected = boolean, true if this board is currently selected
-    const handleClick = () => {
-        onBoardSelect(board.board_id);
-    };
+const Board = ({ boardId, cardsData, addLikes }) => {
 
+    const cards = cardsData.map((cardData) => {
+    return <Card 
+      key={cardData.id}
+      card={cardData}
+      onAddLike={addLikes}
+    />;
+    });
     return (
-        <div 
-            className={`board-item ${isSelected ? 'selected' : ''}`}
-            onClick={handleClick}
-        >
-            <h4>{board.title}</h4>
-            <p>Owner: {board.owner}</p>
-            {/* another way to display: */}
-            {/* <strong>{board.title}</strong> */}
-            {/* <small className="board-owner">by {board.owner}</small> */}
-        </div>
+        <>
+            {/* <h4>{board.title}</h4>
+            <p>Owner: {board.owner}</p> */}
+            <div className='cardContainer'>
+                {cards}
+            </div>
+        </>
     );
 };
 
 // PropTypes 
 Board.propTypes = {
-    board: PropTypes.shape({
-        board_id: PropTypes.number.isRequired,
-        title: PropTypes.string.isRequired,
-        owner: PropTypes.string.isRequired,
-    }).isRequired,
-    onBoardSelect: PropTypes.func.isRequired,
-    isSelected: PropTypes.bool.isRequired,
+    boardId: PropTypes.number.isRequired,
+    cardsData: PropTypes.array.isRequired,
+    addLikes: PropTypes.func.isRequired,
 };
 
 export default Board;
