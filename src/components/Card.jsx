@@ -5,7 +5,6 @@ const Card = ({card, onAddLike}) => {
     const {id, message, likesCount, boardId} = card
     const handleAddLikes = () => {
         onAddLike(id);
-        console.log(`This post id is ${id}`);
     };
 
     return <>
