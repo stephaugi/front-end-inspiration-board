@@ -126,6 +126,10 @@ const createNewCardAPI = (inputData) => {
   .catch(error => console.log(error));
 };
 
+const likeCardForAPI = (cardId) => {
+  return axios.put(`${VITE_APP_BACKEND_URL}/cards/${cardId}/like`)
+  .catch(error => console.log(error))
+}
 
 function App() {
   const [cardsData, setCardsData] = useState([]);
@@ -181,15 +185,13 @@ function App() {
     return setCardsData(prevCardsData => [inputData, ...prevCardsData]);
   };
 
-  const addLikes = (id) => {
-    return setCardsData(prevCardsData => {
-      return prevCardsData.map(card => {
-        if (card.id == id) {
-          return {...card, likesCount: card.likesCount + 1}
-      } else return card;
-    });
-  }
-)};
+  const addLikes = (cardId) => {
+    likeCardForAPI(cardId);
+    setCardsData(prevCards => prevCards.map(card => 
+      card.id === cardId ? {...card, likesCount: card.likesCount + 1}: card
+    )
+  )};
+
   const makeControlledSelect = (inputName, boardsData) => {
     // get list of boards, input id as value and board title as the display
     const selectOptions = boardsData.map(board => {
