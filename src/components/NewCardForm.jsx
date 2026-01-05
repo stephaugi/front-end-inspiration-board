@@ -8,7 +8,7 @@ const kDefaultCardForm = {
     boardId: ''
 };
 
-const NewCardForm = ({ onFormSubmit, boards }) => {
+const NewCardForm = ({ onFormSubmit, selectedBoard }) => {
     const [cardFormData, setCardFormData] = useState(kDefaultCardForm);
 
     // make form
@@ -33,7 +33,8 @@ const NewCardForm = ({ onFormSubmit, boards }) => {
         setCardFormData(prevFormData => {
             return {
                 ...prevFormData,
-                [inputName]: inputValue
+                [inputName]: inputValue,
+                boardId: selectedBoard
             };
         })
     };
@@ -53,8 +54,6 @@ const NewCardForm = ({ onFormSubmit, boards }) => {
             </div>
             <div>
                 <label htmlFor={'inputmessage'}>
-                    {/* Board
-                    {makeControlledSelect('boardId', boards)} */}
                 </label>
             </div>
         </div>
@@ -66,12 +65,7 @@ const NewCardForm = ({ onFormSubmit, boards }) => {
 
 NewCardForm.propType = {
     onFormSubmit: PropTypes.func.isRequired,
-    boards: PropTypes.arrayOf(
-        PropTypes.shape({
-            id: PropTypes.number.isRequired,
-            title: PropTypes.string.isRequired,
-        })
-    )
+    selectedBoard: PropTypes.number,
 }
 
 export default NewCardForm;

@@ -211,6 +211,8 @@ function App() {
         addLikes={addLikes}
       />;
   
+  const cardForm = selectedBoardId != [] ? <Modal
+    onFormSubmit={createNewCard} selectedBoard={selectedBoardId}/>:'';
 
   return (<>
     <div className='boardFormLayout'>
@@ -221,8 +223,7 @@ function App() {
       {makeControlledSelect('boards', boardsData)}
     </div>
     {boards}
-    <Modal
-    onFormSubmit={createNewCard} boards={boardsData}/>
+    {cardForm}
   </>
   )
 }
