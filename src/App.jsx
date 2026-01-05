@@ -185,6 +185,10 @@ function App() {
     return setCardsData(prevCardsData => [inputData, ...prevCardsData]);
   };
 
+  const deleteCard = (cardId) => {
+    setCardsData(prevCards => prevCards.filter(card => card.id !== cardId));
+    };
+
   const addLikes = (cardId) => {
     likeCardForAPI(cardId);
     setCardsData(prevCards => prevCards.map(card => 
@@ -211,6 +215,7 @@ function App() {
         boardId={selectedBoardId}
         cardsData={cardsData}
         addLikes={addLikes}
+        deleteCard ={deleteCard}
       />;
   
   const cardForm = selectedBoardId != [] ? <Modal
