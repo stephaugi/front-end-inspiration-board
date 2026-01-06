@@ -10,8 +10,8 @@ const kDefaultCardForm = {
 
 const NewCardForm = ({ onFormSubmit, selectedBoardId }) => {
     const [cardFormData, setCardFormData] = useState(kDefaultCardForm);
-    const [inputErrorToggle, setInputErrorToggle] = useState(false);
     const [disableSubmit, setDisableSubmit] = useState(true)
+    const [errMsg, setErrMsg] = useState('Message cannot be empty!')
 
     const makeControlledInput = (inputName) => {
         return <>
@@ -36,46 +36,48 @@ const NewCardForm = ({ onFormSubmit, selectedBoardId }) => {
                 boardId: selectedBoardId
             };
         });
-        checkCharLength(inputValue);
+        setErrMsg(checkCharLength(inputValue));
     };
 
     const checkCharLength = (inputValue) => {
-        if (inputValue.length > 40 || inputValue.length === 0) {
-            setInputErrorToggle(true);
+        if (inputValue.length > 40) {
             setDisableSubmit(true);
+            return 'Message must be under 40 characters!'
+        } else if (inputValue.length === 0) {
+            setDisableSubmit(true)
+            return 'Message cannot be empty!'
         } else {
-            setInputErrorToggle(false);
             setDisableSubmit(false);
+            return '';
         }
-
     };
-
-    const inputError = inputErrorToggle && <p className='inputErrorMessage'>Message must be under 40 characters!</p>
 
     const handleSubmit = (event) => {
         event.preventDefault();
         onFormSubmit(cardFormData);
     };
 
-    return <>
-    <form onSubmit={handleSubmit}>
-        <div className='formContainer'>
-            <div>
-                <label htmlFor={'inputmessage'}>
-                    Message
-                    {makeControlledInput('message')}
-                </label>
-                {inputError}
+    return (
+    <>
+        <form onSubmit={handleSubmit}>
+            <div className='formContainer'>
+                <div>
+                    <label htmlFor={'inputmessage'}>
+                        Message
+                        {makeControlledInput('message')}
+                    </label>
+                    <p className='inputErrorMessage'>{errMsg}</p>
+                </div>
+                <div>
+                    <label htmlFor={'inputmessage'}>
+                    </label>
+                </div>
             </div>
-            <div>
-                <label htmlFor={'inputmessage'}>
-                </label>
-            </div>
-        </div>
-        <input className='submitButton' type='submit' value='Create Card' disabled={disableSubmit}/>
-    </form>
+            <input className='submitButton' type='submit' value='Create Card' disabled={disableSubmit}
+            />
+        </form>
     </>
-    
+    )
 };
 
 NewCardForm.propType = {
