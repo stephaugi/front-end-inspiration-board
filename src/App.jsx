@@ -126,6 +126,12 @@ const createNewCardAPI = (inputData) => {
   .catch(error => console.log(error));
 };
 
+const deleteCardAPI = (cardId) => {
+  return axios.delete(`${VITE_APP_BACKEND_URL}/cards/${cardId}`)
+  .then(response => response.data)
+  .catch(error => console.log(error));
+};
+
 const likeCardForAPI = (cardId) => {
   return axios.put(`${VITE_APP_BACKEND_URL}/cards/${cardId}/like`)
   .catch(error => console.log(error))
@@ -186,7 +192,10 @@ function App() {
   };
 
   const deleteCard = (cardId) => {
-    setCardsData(prevCards => prevCards.filter(card => card.id !== cardId));
+    return deleteCardAPI(cardId)
+      .then(() => {
+        return setCardsData(prevCards => prevCards.filter(card => card.id !== cardId))
+      });
     };
 
   const addLikes = (cardId) => {
