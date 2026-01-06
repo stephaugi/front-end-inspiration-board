@@ -7,7 +7,6 @@ import axios from 'axios';
 
 const VITE_APP_BACKEND_URL = import.meta.env.VITE_APP_BACKEND_URL
 
-
 const getAllBoardsAPI = () => {
   return axios.get(`${VITE_APP_BACKEND_URL}/boards`)
   .then(response => response.data)
@@ -54,12 +53,7 @@ const getAllCardsAPI = (boardId) => {
 };
 
 const createNewCardAPI = (inputData) => {
-  const requestBody = {
-  message: inputData.message,
-  likes_count: inputData.likesCount,
-  board_id: inputData.boardId,
-  };
-  return axios.post(`${VITE_APP_BACKEND_URL}/boards/${inputData.boardId}/cards`, requestBody)
+  return axios.post(`${VITE_APP_BACKEND_URL}/boards/${inputData.boardId}/cards`, inputData)
   .then(response => response.data)
   .catch(error => console.log(error));
 };
@@ -76,8 +70,8 @@ const likeCardForAPI = (cardId) => {
 }
 
 // sort function to order cards
-const sortAlphabetically = (cardsData) => {
-  return cardsData.sort((a, b) => {
+const sortAlphabeticallyAZ = (cardsData) => {
+  return [...cardsData].sort((a, b) => {
     if (a.message.toLowerCase() < b.message.toLowerCase()) {
       return -1;
     }
@@ -86,17 +80,38 @@ const sortAlphabetically = (cardsData) => {
     }
     return 0;
   });
-};  
+};
+
+const sortAlphabeticallyZA = (cardsData) => {
+  return [...cardsData].sort((a, b) => {
+    if (a.message.toLowerCase() < b.message.toLowerCase()) {
+      return 1;
+    }
+    if (a.message.toLowerCase() > b.message.toLowerCase()) {
+      return -1;
+    }
+    return 0;
+  });
+};
+
 
 const sortByLikes = (cardsData) => {
-  return cardsData.sort((a, b) => b.likesCount - a.likesCount);
+  return [...cardsData].sort((a, b) => b.likesCount - a.likesCount);
 };
+
+const sortByIdAsc = (cardsData) => {
+  return [...cardsData].sort((a, b) => a.id - b.id);
+}
+
+const sortByIdDesc = (cardsData) => {
+  return [...cardsData].sort((a, b) => b.id - a.id);
+}
 
 function App() {
   const [cardsData, setCardsData] = useState([]);
   const [boardsData, setBoardsData] = useState([]);
   const [selectedBoardId, setSelectedBoardId] = useState(null);
-  const [sortOption, setSortOption] = useState('id'); // 'id', 'alphabetical', 'likes' , by default sort by id
+  const [sortOption, setSortOption] = useState('id_asc'); // 'id', 'alphabetical', 'likes' , by default sort by id
   
   useEffect(() => {
     const fetchBoards = async () => {
@@ -171,10 +186,16 @@ function App() {
   //Gets sorted cards based on current sort option
   const getSortedCards = () => {
     let sortedCards = [...cardsData];
-    if (sortOption === 'alphabetical') {
-      sortedCards = sortAlphabetically(sortedCards);
-    } else if (sortOption === 'likes') {
+    if (sortOption === 'a_z') {
+      sortedCards = sortAlphabeticallyAZ(sortedCards);
+    } else if (sortOption === 'z_a') {
+      sortedCards = sortAlphabeticallyZA(sortedCards);
+    } else if (sortOption === 'likes_desc') {
       sortedCards = sortByLikes(sortedCards);
+    } else if (sortOption === 'id_asc') {
+      sortedCards = sortByIdAsc(sortedCards)
+    } else if (sortOption === 'id_desc') {
+      sortedCards = sortByIdDesc(sortedCards);
     }
     return sortedCards;
   };
@@ -194,6 +215,18 @@ function App() {
     {selectOptions}
     </select>;
   };
+
+  const makeSortSelect = () => {
+    return (
+      <select value={sortOption} onChange={handleSortChange}>
+        <option value="id_asc">Oldest first</option>
+        <option value="id_desc">Recent First</option>
+        <option value="a_z">A-Z</option>
+        <option value="z_a">Z-A</option>
+        <option value="likes_desc">Rating: high to low</option>
+      </select>
+    )
+  }
   const boards = <Board 
         key={selectedBoardId}
         boardId={selectedBoardId}
@@ -210,6 +243,9 @@ function App() {
     
     <div className='boardContainer'>
       {makeControlledSelect('boards', boardsData)}
+    </div>
+    <div className='sortContainer'>
+      <div>Sort:</div>{makeSortSelect()}
     </div>
     {boards}
     <Modal
