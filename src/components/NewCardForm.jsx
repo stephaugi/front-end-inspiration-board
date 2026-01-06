@@ -8,9 +8,10 @@ const kDefaultCardForm = {
     boardId: ''
 };
 
-const NewCardForm = ({ onFormSubmit, selectedBoard }) => {
+const NewCardForm = ({ onFormSubmit, selectedBoardId }) => {
     const [cardFormData, setCardFormData] = useState(kDefaultCardForm);
     const [inputErrorToggle, setInputErrorToggle] = useState(false);
+    const [disableSubmit, setDisableSubmit] = useState(true)
 
     const makeControlledInput = (inputName) => {
         return <>
@@ -32,17 +33,19 @@ const NewCardForm = ({ onFormSubmit, selectedBoard }) => {
             return {
                 ...prevFormData,
                 [inputName]: inputValue,
-                boardId: selectedBoard
+                boardId: selectedBoardId
             };
         });
         checkCharLength(inputValue);
     };
 
     const checkCharLength = (inputValue) => {
-        if (inputValue.length > 40 ) {
+        if (inputValue.length > 40 || inputValue.length === 0) {
             setInputErrorToggle(true);
+            setDisableSubmit(true);
         } else {
             setInputErrorToggle(false);
+            setDisableSubmit(false);
         }
 
     };
@@ -69,7 +72,7 @@ const NewCardForm = ({ onFormSubmit, selectedBoard }) => {
                 </label>
             </div>
         </div>
-        <input className='submitButton' type='submit' value='Create Card'/>
+        <input className='submitButton' type='submit' value='Create Card' disabled={disableSubmit}/>
     </form>
     </>
     
