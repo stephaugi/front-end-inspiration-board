@@ -136,8 +136,24 @@ function App() {
 
   // for testing ,do we want to change this ?
   const [boardsData, setBoardsData] = useState([]);
-  const [selectedBoardId, setSelectedBoardId] = useState([]);
+  const [selectedBoardId, setSelectedBoardId] = useState(null);
   
+  useEffect(() => {
+    const getAndSetBoards = async () => {
+      try {
+        const boards = await getAllBoardsAPI();
+        const newBoards = boards.map(convertBoardFromAPI);
+        setBoardsData(newBoards);
+        await setSelectedBoardId(newBoards[0]);
+        const cardsForBoard = await getAllCardsAPI(selectedBoardId)
+        const newCards = cardsForBoard.map(convertCardFromAPI);
+        await setCardsData(newCards);
+      } catch (error) {
+      console.log(error)
+    }
+  }
+  getAndSetBoards()}, [])
+
   useEffect(() => {
     getAllBoardsAPI()
     .then(boards => {
