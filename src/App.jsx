@@ -7,6 +7,7 @@ import axios from 'axios';
 
 const VITE_APP_BACKEND_URL = import.meta.env.VITE_APP_BACKEND_URL
 
+
 const getAllBoardsAPI = () => {
   return axios.get(`${VITE_APP_BACKEND_URL}/boards`)
   .then(response => response.data)
@@ -74,10 +75,28 @@ const likeCardForAPI = (cardId) => {
   .catch(error => console.log(error))
 }
 
+// sort function to order cards
+const sortAlphabetically = (cardsData) => {
+  return cardsData.sort((a, b) => {
+    if (a.message.toLowerCase() < b.message.toLowerCase()) {
+      return -1;
+    }
+    if (a.message.toLowerCase() > b.message.toLowerCase()) {
+      return 1;
+    }
+    return 0;
+  });
+};  
+
+const sortByLikes = (cardsData) => {
+  return cardsData.sort((a, b) => b.likesCount - a.likesCount);
+};
+
 function App() {
   const [cardsData, setCardsData] = useState([]);
   const [boardsData, setBoardsData] = useState([]);
   const [selectedBoardId, setSelectedBoardId] = useState(null);
+  const [sortOption, setSortOption] = useState('id'); // 'id', 'alphabetical', 'likes' , by default sort by id
   
   useEffect(() => {
     const fetchBoards = async () => {
@@ -120,6 +139,12 @@ function App() {
     getAllCards(inputValue);
   };
 
+  // Handles sort option change
+  const handleSortChange = (event) => {
+    setSortOption(event.target.value);
+  };
+
+
   const createNewCard = (inputData) => {
     createNewCardAPI(inputData)
     .then(newCardFromAPI => {
@@ -143,6 +168,18 @@ function App() {
     )
   )};
 
+  //Gets sorted cards based on current sort option
+  const getSortedCards = () => {
+    let sortedCards = [...cardsData];
+    if (sortOption === 'alphabetical') {
+      sortedCards = sortAlphabetically(sortedCards);
+    } else if (sortOption === 'likes') {
+      sortedCards = sortByLikes(sortedCards);
+    }
+    return sortedCards;
+  };
+
+
   const makeControlledSelect = (inputName, boardsData) => {
     // get list of boards, input id as value and board title as the display
     const selectOptions = boardsData.map(board => {
@@ -160,7 +197,7 @@ function App() {
   const boards = <Board 
         key={selectedBoardId}
         boardId={selectedBoardId}
-        cardsData={cardsData}
+        cardsData={getSortedCards()} // pass sorted cards
         addLikes={addLikes}
         deleteCard ={deleteCard}
       />;
