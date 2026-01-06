@@ -72,6 +72,17 @@ const boardsDataTest = [
 //   return newTask;
 // };
 
+const getAllBoardsAPI = () => {
+  return axios.get(`${VITE_APP_BACKEND_URL}/boards`)
+  .then(response => response.data)
+  .catch(error => console.log(error));
+}
+
+const createNewBoardAPI = (inputData) => {
+  return axios.post(`${VITE_APP_BACKEND_URL}/boards`, inputData)
+  .then(response => response.data)
+  .catch(error => console.log(error));
+}
 
 const convertBoardFromAPI = (apiBoard) => {
   const newBoard = {
@@ -97,6 +108,7 @@ const convertCardFromAPI = (apiCard) => {
   return newCard;
 };
 
+
 const getAllCardsAPI = (boardId) => {
   return axios.get(`${VITE_APP_BACKEND_URL}/boards/${boardId}/cards`)
   .then(response => {
@@ -109,12 +121,6 @@ const getAllCardsAPI = (boardId) => {
   .catch(error => console.log(error));
 };
 
-const getAllBoardsAPI = () => {
-  return axios.get(`${VITE_APP_BACKEND_URL}/boards`)
-  .then(response => response.data)
-  .catch(error => console.log(error));
-}
-
 const createNewCardAPI = (inputData) => {
   const requestBody = {
     message: inputData.message,
@@ -122,6 +128,12 @@ const createNewCardAPI = (inputData) => {
     board_id: inputData.boardId,
   }
   return axios.post(`${VITE_APP_BACKEND_URL}/boards/${inputData.boardId}/cards`)
+  .then(response => response.data)
+  .catch(error => console.log(error));
+};
+
+const deleteCardAPI = (cardId) => {
+  return axios.delete(`${VITE_APP_BACKEND_URL}/cards/${cardId}`)
   .then(response => response.data)
   .catch(error => console.log(error));
 };
@@ -159,7 +171,7 @@ function App() {
     .then(boards => {
       const newBoards = boards.map(convertBoardFromAPI);
       setBoardsData(newBoards);
-      setSelectedBoardId(newBoards[0]); 
+      setSelectedBoardId(newBoards[0].id); 
     });
     // .then(setCardsData(getAllCards(selectedBoardId)));
   }, []);
@@ -172,7 +184,8 @@ function App() {
         return setCardsData(response)})
       .catch(error => console.log(error));
   };
-  
+
+
 
 
   // useEffect(() => {
@@ -184,9 +197,17 @@ function App() {
 
 
   // Board related functions
+
+
   const createNewBoard = (inputData) => {
     console.log(inputData);
-    return setBoardsData(prevBoardsData => [inputData, ...prevBoardsData]);
+    createNewBoardAPI(inputData)
+    .then(newBoardFromAPI => {
+      const convertedBoard = convertBoardFromAPI(newBoardFromAPI);
+      setBoardsData(prevBoardsData => [convertedBoard, ...prevBoardsData]);
+    })
+    .catch(error => console.log(error));
+
   };
 
   const selectBoard = (event) => {
@@ -200,6 +221,13 @@ function App() {
   const createNewCard = (inputData) => {
     return setCardsData(prevCardsData => [inputData, ...prevCardsData]);
   };
+
+  const deleteCard = (cardId) => {
+    return deleteCardAPI(cardId)
+      .then(() => {
+        return setCardsData(prevCards => prevCards.filter(card => card.id !== cardId))
+      });
+    };
 
   const addLikes = (cardId) => {
     likeCardForAPI(cardId);
@@ -227,10 +255,9 @@ function App() {
         boardId={selectedBoardId}
         cardsData={cardsData}
         addLikes={addLikes}
+        deleteCard ={deleteCard}
       />;
   
-  const cardForm = selectedBoardId != [] ? <Modal
-    onFormSubmit={createNewCard} selectedBoard={selectedBoardId}/>:'';
 
   return (<>
     <div className='boardFormLayout'>
@@ -241,7 +268,8 @@ function App() {
       {makeControlledSelect('boards', boardsData)}
     </div>
     {boards}
-    {cardForm}
+    <Modal
+    onFormSubmit={createNewCard} boards={boardsData}/>
   </>
   )
 }

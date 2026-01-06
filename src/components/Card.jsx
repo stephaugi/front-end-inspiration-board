@@ -1,10 +1,14 @@
 import PropTypes from 'prop-types';
 import './Card.css'
 
-const Card = ({card, onAddLike}) => {
+const Card = ({card, onAddLike, onDeleteCard}) => {
     const {id, message, likesCount, boardId} = card
     const handleAddLikes = () => {
         onAddLike(id);
+    };
+
+    const handleDeleteCard = () => {
+        onDeleteCard(id);
     };
 
     return <>
@@ -13,6 +17,7 @@ const Card = ({card, onAddLike}) => {
         {message}
         <div className='footer--style'>
             {likesCount} <button onClick={handleAddLikes}>❤️</button>
+            <button onClick={handleDeleteCard}>X</button>
         </div>
         </h2></article></>
 };
@@ -27,6 +32,8 @@ Card.propTypes = {
         }
     ),
     onAddLike: PropTypes.func.isRequired,
+    onDeleteCard: PropTypes.func.isRequired,
+
 };
 
 export default Card;
