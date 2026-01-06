@@ -4,7 +4,7 @@ import './Modal.css';
 import NewCardForm from './NewCardForm';
 
 
-const Modal = ({onFormSubmit, selectedBoard}) => {
+const Modal = ({onFormSubmit, currentBoardId}) => {
   const [modalOpen, setModalOpen] = useState(false);
   const toggleModal = () => {
     setModalOpen(!modalOpen);
@@ -16,7 +16,7 @@ const Modal = ({onFormSubmit, selectedBoard}) => {
               <NewCardForm
               onFormSubmit={onFormSubmit}
               onModalClose={toggleModal}
-              selectedBoard={selectedBoard}
+              selectedBoardId={currentBoardId}
               />
           </div>
         </div>
@@ -31,7 +31,7 @@ const Modal = ({onFormSubmit, selectedBoard}) => {
 
 Modal.propType = {
     onFormSubmit: PropTypes.func.isRequired,
-    selectedBoard: PropTypes.number
+    currentBoardId: PropTypes.number.isRequired
 }
 
 export default Modal;

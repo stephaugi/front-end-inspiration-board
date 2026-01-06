@@ -58,7 +58,7 @@ const createNewCardAPI = (inputData) => {
     likes_count: inputData.likesCount,
     board_id: inputData.boardId,
   }
-  return axios.post(`${VITE_APP_BACKEND_URL}/boards/${inputData.boardId}/cards`)
+  return axios.post(`${VITE_APP_BACKEND_URL}/boards/${inputData.boardId}/cards`, inputData)
   .then(response => response.data)
   .catch(error => console.log(error));
 };
@@ -106,7 +106,6 @@ function App() {
   // Board related functions
 
   const createNewBoard = (inputData) => {
-    console.log(inputData);
     createNewBoardAPI(inputData)
     .then(newBoardFromAPI => {
       const convertedBoard = convertBoardFromAPI(newBoardFromAPI);
@@ -123,7 +122,6 @@ function App() {
   };
 
   const createNewCard = (inputData) => {
-    console.log(inputData);
     createNewCardAPI(inputData)
     .then(newCardFromAPI => {
       const convertedCard = convertCardFromAPI(newCardFromAPI);
@@ -179,7 +177,7 @@ function App() {
     </div>
     {boards}
     <Modal
-    onFormSubmit={createNewCard} boards={boardsData}/>
+    onFormSubmit={createNewCard} currentBoardId={selectedBoardId}/>
   </>
   )
 }

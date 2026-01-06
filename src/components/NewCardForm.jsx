@@ -8,7 +8,7 @@ const kDefaultCardForm = {
     boardId: ''
 };
 
-const NewCardForm = ({ onFormSubmit, selectedBoard }) => {
+const NewCardForm = ({ onFormSubmit, selectedBoardId }) => {
     const [cardFormData, setCardFormData] = useState(kDefaultCardForm);
 
     // make form
@@ -25,8 +25,6 @@ const NewCardForm = ({ onFormSubmit, selectedBoard }) => {
         </>
     };
 
-
-
     const updateFormChange = (event) => {
         const inputName = event.target.name;
         const inputValue = event.target.value;
@@ -34,7 +32,7 @@ const NewCardForm = ({ onFormSubmit, selectedBoard }) => {
             return {
                 ...prevFormData,
                 [inputName]: inputValue,
-                boardId: selectedBoard
+                boardId: selectedBoardId
             };
         })
     };
