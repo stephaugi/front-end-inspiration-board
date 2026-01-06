@@ -201,10 +201,15 @@ function App() {
     getAllCards(inputValue);
   };
 
-
   const createNewCard = (inputData) => {
-    return setCardsData(prevCardsData => [inputData, ...prevCardsData]);
-  };
+    console.log(inputData);
+    createNewCardAPI(inputData)
+    .then(newCardFromAPI => {
+      const convertedCard = convertCardFromAPI(newCardFromAPI);
+      setCardsData(prevCardsData => [convertedCard, ...prevCardsData]);
+    })
+    .catch(error => console.log(error));
+  }
 
   const deleteCard = (cardId) => {
     return deleteCardAPI(cardId)
