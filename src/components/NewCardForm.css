@@ -18,6 +18,10 @@
     margin: .5rem;
 }
 
+.inputErrorMessage {
+    font-size: x-small;
+}
+
 select {
     margin: .5rem;
     border-radius: 2rem;

@@ -8,10 +8,10 @@ const kDefaultCardForm = {
     boardId: ''
 };
 
-const NewCardForm = ({ onFormSubmit, selectedBoardId }) => {
+const NewCardForm = ({ onFormSubmit, selectedBoard }) => {
     const [cardFormData, setCardFormData] = useState(kDefaultCardForm);
+    const [inputErrorToggle, setInputErrorToggle] = useState(false);
 
-    // make form
     const makeControlledInput = (inputName) => {
         return <>
         <input
@@ -32,15 +32,28 @@ const NewCardForm = ({ onFormSubmit, selectedBoardId }) => {
             return {
                 ...prevFormData,
                 [inputName]: inputValue,
-                boardId: selectedBoardId
+                boardId: selectedBoard
             };
-        })
+        });
+        checkCharLength(inputValue);
     };
+
+    const checkCharLength = (inputValue) => {
+        if (inputValue.length > 40 ) {
+            setInputErrorToggle(true);
+        } else {
+            setInputErrorToggle(false);
+        }
+
+    };
+
+    const inputError = inputErrorToggle && <p className='inputErrorMessage'>Message must be under 40 characters!</p>
 
     const handleSubmit = (event) => {
         event.preventDefault();
         onFormSubmit(cardFormData);
     };
+
     return <>
     <form onSubmit={handleSubmit}>
         <div className='formContainer'>
@@ -49,6 +62,7 @@ const NewCardForm = ({ onFormSubmit, selectedBoardId }) => {
                     Message
                     {makeControlledInput('message')}
                 </label>
+                {inputError}
             </div>
             <div>
                 <label htmlFor={'inputmessage'}>
