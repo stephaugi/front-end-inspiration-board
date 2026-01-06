@@ -8,7 +8,7 @@ const kDefaultCardForm = {
     boardId: ''
 };
 
-const NewCardForm = ({ onFormSubmit, selectedBoard }) => {
+const NewCardForm = ({ onFormSubmit, selectedBoardId }) => {
     const [cardFormData, setCardFormData] = useState(kDefaultCardForm);
     const [inputErrorToggle, setInputErrorToggle] = useState(false);
 
@@ -32,7 +32,7 @@ const NewCardForm = ({ onFormSubmit, selectedBoard }) => {
             return {
                 ...prevFormData,
                 [inputName]: inputValue,
-                boardId: selectedBoard
+                boardId: selectedBoardId
             };
         });
         checkCharLength(inputValue);
@@ -77,7 +77,7 @@ const NewCardForm = ({ onFormSubmit, selectedBoard }) => {
 
 NewCardForm.propType = {
     onFormSubmit: PropTypes.func.isRequired,
-    selectedBoard: PropTypes.number,
+    selectedBoardId: PropTypes.number.isRequired,
 }
 
 export default NewCardForm;

@@ -53,7 +53,12 @@ const getAllCardsAPI = (boardId) => {
 };
 
 const createNewCardAPI = (inputData) => {
-  return axios.post(`${VITE_APP_BACKEND_URL}/boards/${inputData.boardId}/cards`, inputData)
+  const requestBody = {
+  message: inputData.message,
+  likes_count: inputData.likesCount,
+  board_id: inputData.boardId,
+  };
+  return axios.post(`${VITE_APP_BACKEND_URL}/boards/${inputData.boardId}/cards`, requestBody)
   .then(response => response.data)
   .catch(error => console.log(error));
 };
