@@ -1,76 +1,11 @@
 import { useState, useEffect } from 'react';
 import './App.css';
-import NewCardForm from './components/NewCardForm';
-import Card from './components/Card';
 import NewBoardForm from './components/NewBoardForm';
 import Board from './components/Board';
 import Modal from './components/Modal';
 import axios from 'axios';
 
-
 const VITE_APP_BACKEND_URL = import.meta.env.VITE_APP_BACKEND_URL
-
-// axios.get(`${VITE_APP_BACKEND_URL}/boards`, {
-//     // ...
-
-// Board post request
-// {
-//     "title": ...,
-//     "owner": ...
-// }
-
-// Card post request
-// {
-//     "message": ...,
-//     "likes_count": ...,
-//     "board_id": ...
-// }
-
-const cardTest = {
-    id: 1523,
-    message: 'this is a card',
-    likesCount: 5,
-    boardId: 2,
-};
-
-// api boards/1/cards get request response
-// [
-//     {
-//         "board_id": 1,
-//         "id": 5,
-//         "likes_count": 0,
-//         "message": "AI but make it super cool 😎"
-//     },
-// ]
-
-
-// board_id or id ?
-const boardsDataTest = [
-    {
-        id: 42376,
-        title: 'board1',
-        owner: 'owner1'
-    },
-    {
-        id: 2345,
-        title: 'board2',
-        owner: 'owner2'
-    },
-    {
-        id:23626,
-        title: 'board3',
-        owner: 'owner3'
-    }
-];
-
-// const convertFromAPI = (apiTask) => {
-//   const newTask = {
-//     id: apiTask.id,
-//     title: apiTask.title,
-//     isComplete: apiTask.is_complete,
-//   };
-//   return newTask;
-// };
 
 const getAllBoardsAPI = () => {
   return axios.get(`${VITE_APP_BACKEND_URL}/boards`)
@@ -102,12 +37,8 @@ const convertCardFromAPI = (apiCard) => {
     likesCount: apiCard.likes_count ? apiCard.likes_count : null,
     boardId: apiCard.board_id
   };
-  // delete newCard.likes_count;
-  // delete newCard.board_id
-
   return newCard;
 };
-
 
 const getAllCardsAPI = (boardId) => {
   return axios.get(`${VITE_APP_BACKEND_URL}/boards/${boardId}/cards`)
@@ -145,43 +76,34 @@ const likeCardForAPI = (cardId) => {
 
 function App() {
   const [cardsData, setCardsData] = useState([]);
-
-  // for testing ,do we want to change this ?
   const [boardsData, setBoardsData] = useState([]);
-  const [selectedBoardId, setSelectedBoardId] = useState([]);
+  const [selectedBoardId, setSelectedBoardId] = useState(null);
   
   useEffect(() => {
-    getAllBoardsAPI()
-    .then(boards => {
-      const newBoards = boards.map(convertBoardFromAPI);
-      setBoardsData(newBoards);
-      setSelectedBoardId(newBoards[0].id); 
-    });
-    // .then(setCardsData(getAllCards(selectedBoardId)));
-  }, []);
+    const fetchBoards = async () => {
+      const boardsFromAPI = await getAllBoardsAPI();
+      const boards = boardsFromAPI.map(convertBoardFromAPI)
+      setBoardsData(boards);
+      if (boardsData) {
+        const firstBoard = boards[0];
+        const defaultBoardId = firstBoard.id
+        setSelectedBoardId(defaultBoardId)
+
+        const cardsFromAPI = await getAllCardsAPI(defaultBoardId);
+        setCardsData(cardsFromAPI)
+      }
+    }
+    fetchBoards();
+  }, [])
 
   const getAllCards = (boardId) => {
-    // api call that returns cards based on ID
-    // update cards data with response.data
     return getAllCardsAPI(boardId)
       .then(response => {
         return setCardsData(response)})
       .catch(error => console.log(error));
   };
 
-
-
-
-  // useEffect(() => {
-  //   if (selectedBoardId) {
-  //     getAllCardsAPI(selectedBoardId)
-  //     .then(cards => setBoardsData(cards));
-  //   }
-  // }, [selectedBoardId]);
-
-
   // Board related functions
-
 
   const createNewBoard = (inputData) => {
     console.log(inputData);
@@ -191,7 +113,6 @@ function App() {
       setBoardsData(prevBoardsData => [convertedBoard, ...prevBoardsData]);
     })
     .catch(error => console.log(error));
-
   };
 
   const selectBoard = (event) => {
