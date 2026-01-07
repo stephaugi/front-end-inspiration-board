@@ -17,8 +17,6 @@ import {
   likeCardForAPI 
 } from './utilities/APIHelpers';
 
-import { } from './utilities/AppHelpers';
-
 import { 
   sortAlphabeticallyAZ, 
   sortAlphabeticallyZA, 
