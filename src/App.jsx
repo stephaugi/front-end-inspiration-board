@@ -3,115 +3,31 @@ import './App.css';
 import NewBoardForm from './components/NewBoardForm';
 import Board from './components/Board';
 import Modal from './components/Modal';
-import axios from 'axios';
 
-const VITE_APP_BACKEND_URL = import.meta.env.VITE_APP_BACKEND_URL
+import { 
+  convertBoardFromAPI, 
+  createNewBoardAPI, 
+  createNewCardAPI, 
+  convertCardFromAPI, 
+  deleteCardAPI, 
+  getAllBoardsAPI, 
+  getAllCardsAPI, 
+  likeCardForAPI 
+} from './utilities/APIHelpers';
 
-const getAllBoardsAPI = () => {
-  return axios.get(`${VITE_APP_BACKEND_URL}/boards`)
-  .then(response => response.data)
-  .catch(error => console.log(error));
-}
-
-const createNewBoardAPI = (inputData) => {
-  return axios.post(`${VITE_APP_BACKEND_URL}/boards`, inputData)
-  .then(response => response.data)
-  .catch(error => console.log(error));
-}
-
-const convertBoardFromAPI = (apiBoard) => {
-  const newBoard = {
-    id: apiBoard.id,
-    owner: apiBoard.owner,
-    title: apiBoard.title,
-    cardIds: apiBoard.card_ids ? apiBoard.card_ids : null
-  };
-  delete apiBoard.card_ids;
-  return newBoard;
-}
-
-const convertCardFromAPI = (apiCard) => {
-  const newCard = {
-    id: apiCard.id,
-    message: apiCard.message,
-    likesCount: apiCard.likes_count ? apiCard.likes_count : null,
-    boardId: apiCard.board_id
-  };
-  return newCard;
-};
-
-const getAllCardsAPI = (boardId) => {
-  return axios.get(`${VITE_APP_BACKEND_URL}/boards/${boardId}/cards`)
-  .then(response => {
-    const result = response.data
-    return result.map(card => {
-      const convertedCard = convertCardFromAPI(card)
-      return convertedCard;
-    });
-  })
-  .catch(error => console.log(error));
-};
-
-const createNewCardAPI = (inputData) => {
-  return axios.post(`${VITE_APP_BACKEND_URL}/boards/${inputData.boardId}/cards`, inputData)
-  .then(response => response.data)
-  .catch(error => console.log(error));
-};
-
-const deleteCardAPI = (cardId) => {
-  return axios.delete(`${VITE_APP_BACKEND_URL}/cards/${cardId}`)
-  .then(response => response.data)
-  .catch(error => console.log(error));
-};
-
-const likeCardForAPI = (cardId) => {
-  return axios.put(`${VITE_APP_BACKEND_URL}/cards/${cardId}/like`)
-  .catch(error => console.log(error))
-}
-
-// sort function to order cards
-const sortAlphabeticallyAZ = (cardsData) => {
-  return [...cardsData].sort((a, b) => {
-    if (a.message.toLowerCase() < b.message.toLowerCase()) {
-      return -1;
-    }
-    if (a.message.toLowerCase() > b.message.toLowerCase()) {
-      return 1;
-    }
-    return 0;
-  });
-};
-
-const sortAlphabeticallyZA = (cardsData) => {
-  return [...cardsData].sort((a, b) => {
-    if (a.message.toLowerCase() < b.message.toLowerCase()) {
-      return 1;
-    }
-    if (a.message.toLowerCase() > b.message.toLowerCase()) {
-      return -1;
-    }
-    return 0;
-  });
-};
-
-
-const sortByLikes = (cardsData) => {
-  return [...cardsData].sort((a, b) => b.likesCount - a.likesCount);
-};
-
-const sortByIdAsc = (cardsData) => {
-  return [...cardsData].sort((a, b) => a.id - b.id);
-}
-
-const sortByIdDesc = (cardsData) => {
-  return [...cardsData].sort((a, b) => b.id - a.id);
-}
+import { 
+  sortAlphabeticallyAZ, 
+  sortAlphabeticallyZA, 
+  sortByIdAsc, 
+  sortByIdDesc, 
+  sortByLikes 
+} from './utilities/SortingHelpers';
 
 function App() {
   const [cardsData, setCardsData] = useState([]);
   const [boardsData, setBoardsData] = useState([]);
   const [selectedBoardId, setSelectedBoardId] = useState(null);
-  const [sortOption, setSortOption] = useState('id_asc'); // 'id', 'alphabetical', 'likes' , by default sort by id
+  const [sortOption, setSortOption] = useState('id_asc');
   const [isFormCollapsed, setIsFormCollapsed] = useState(false);
 
   const toggleFormCollapse = () => {
@@ -123,7 +39,7 @@ function App() {
       const boardsFromAPI = await getAllBoardsAPI();
       const boards = boardsFromAPI.map(convertBoardFromAPI)
       setBoardsData(boards);
-      if (boardsData) {
+      if (boards.length > 0) {
         const firstBoard = boards[0];
         const defaultBoardId = firstBoard.id
         setSelectedBoardId(defaultBoardId)
@@ -142,8 +58,6 @@ function App() {
       .catch(error => console.log(error));
   };
 
-  // Board related functions
-
   const createNewBoard = (inputData) => {
     createNewBoardAPI(inputData)
     .then(newBoardFromAPI => {
@@ -159,11 +73,9 @@ function App() {
     getAllCards(inputValue);
   };
 
-  // Handles sort option change
   const handleSortChange = (event) => {
     setSortOption(event.target.value);
   };
-
 
   const createNewCard = (inputData) => {
     createNewCardAPI(inputData)
@@ -188,7 +100,6 @@ function App() {
     )
   )};
 
-  //Gets sorted cards based on current sort option
   const getSortedCards = () => {
     let sortedCards = [...cardsData];
     if (sortOption === 'a_z') {
@@ -205,9 +116,7 @@ function App() {
     return sortedCards;
   };
 
-
   const makeControlledSelect = (inputName, boardsData) => {
-    // get list of boards, input id as value and board title as the display
     const selectOptions = boardsData.map(board => {
         return <option
         className='selectBoard'
@@ -216,6 +125,7 @@ function App() {
             {board.title}
         </option>
     });
+
     return (
       <>
         <label htmlFor='boardSelectDropdown'>Select Board to View:</label>
@@ -255,10 +165,6 @@ function App() {
     </header>
     
     <main>
-      {/* <div className='boardFormLayout'>
-        <NewBoardForm onFormSubmit={createNewBoard} />
-      </div> */}
-
           <div className='collapsible-container'>
       <button 
         className={`collapsible ${isFormCollapsed ? '' : 'active'}`}
