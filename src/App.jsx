@@ -29,8 +29,9 @@ function App() {
   const [cardsData, setCardsData] = useState([]);
   const [boardsData, setBoardsData] = useState([]);
   const [selectedBoardId, setSelectedBoardId] = useState(null);
+  const [selectedBoardTitle, setSelectedBoardTitle] = useState(null);
   const [sortOption, setSortOption] = useState('id_asc');
-  const [isFormCollapsed, setIsFormCollapsed] = useState(false);
+  const [isFormCollapsed, setIsFormCollapsed] = useState(true);
 
   const toggleFormCollapse = () => {
     setIsFormCollapsed(!isFormCollapsed);
@@ -72,6 +73,12 @@ function App() {
   const selectBoard = (event) => {
     const inputValue = event.target.value;
     setSelectedBoardId(inputValue);
+    const boardTitle = boardsData.filter(board => {
+      if (board.id == inputValue) {
+      return board;
+      }
+    });
+    setSelectedBoardTitle(boardTitle[0].title);
     getAllCards(inputValue);
   };
 
@@ -120,6 +127,9 @@ function App() {
 
   return (
     <>
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+      <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600&display=swap" rel="stylesheet" />
       <header>
         <h1>Four Seasons Inspiration Board</h1>
       </header>
@@ -142,6 +152,9 @@ function App() {
 
         <div id='board-views'>
           <SelectBoardToView boards={boardsData} selectBoard={selectBoard}/>
+        </div>
+        <div id='board-title'>
+          <h2>{selectedBoardTitle}</h2>
           <SelectHowToSortCards sortOption={sortOption} handleSortChange={handleSortChange}/>
         </div>
 
