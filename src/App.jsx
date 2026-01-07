@@ -112,7 +112,12 @@ function App() {
   const [boardsData, setBoardsData] = useState([]);
   const [selectedBoardId, setSelectedBoardId] = useState(null);
   const [sortOption, setSortOption] = useState('id_asc'); // 'id', 'alphabetical', 'likes' , by default sort by id
-  
+  const [isFormCollapsed, setIsFormCollapsed] = useState(false);
+
+  const toggleFormCollapse = () => {
+    setIsFormCollapsed(!isFormCollapsed);
+  };
+
   useEffect(() => {
     const fetchBoards = async () => {
       const boardsFromAPI = await getAllBoardsAPI();
@@ -250,9 +255,24 @@ function App() {
     </header>
     
     <main>
-      <div className='boardFormLayout'>
+      {/* <div className='boardFormLayout'>
         <NewBoardForm onFormSubmit={createNewBoard} />
-      </div>
+      </div> */}
+
+          <div className='collapsible-container'>
+      <button 
+        className={`collapsible ${isFormCollapsed ? '' : 'active'}`}
+        onClick={toggleFormCollapse}
+      >
+        {isFormCollapsed ? '➕' : '➖'} Create a New Board
+      </button> 
+      
+      {!isFormCollapsed && (
+        <div className='collapsible-content'>
+          <NewBoardForm onFormSubmit={createNewBoard} />
+        </div>
+      )}
+    </div>
       
       <div className='boardContainer'>
         {makeControlledSelect('boards', boardsData)}
