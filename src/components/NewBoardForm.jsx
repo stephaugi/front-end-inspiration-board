@@ -47,12 +47,12 @@ return <>
             
             <form onSubmit={handleSubmit}>
                 <div className="form-group">
-                    <label htmlFor="input-title">Title</label>
+                    <label htmlFor="input-title">Title: </label>
                     {makeControlledInput('title', 'Enter board title...')}
                 </div>
 
                 <div className="form-group">
-                    <label htmlFor="input-owner">Owner</label>
+                    <label htmlFor="input-owner">Owner: </label>
                     {makeControlledInput('owner', 'Your name...')}
                 </div>
 
