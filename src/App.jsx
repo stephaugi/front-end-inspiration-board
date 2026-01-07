@@ -37,6 +37,15 @@ function App() {
     setIsFormCollapsed(!isFormCollapsed);
   };
 
+  const getSelectedBoardTitle = (boardId) => {
+    const boardTitle = boardsData.filter(board => {
+      if (board.id == boardId) {
+      return board;
+      }
+    });
+  setSelectedBoardTitle(boardTitle[0].title);
+  };
+
   useEffect(() => {
     const fetchBoards = async () => {
       const boardsFromAPI = await getAllBoardsAPI();
@@ -44,11 +53,11 @@ function App() {
       setBoardsData(boards);
       if (boards.length > 0) {
         const firstBoard = boards[0];
-        const defaultBoardId = firstBoard.id
-        setSelectedBoardId(defaultBoardId)
-
+        const defaultBoardId = firstBoard.id;
+        setSelectedBoardId(defaultBoardId);
+        setSelectedBoardTitle(boards[0].title);
         const cardsFromAPI = await getAllCardsAPI(defaultBoardId);
-        setCardsData(cardsFromAPI)
+        setCardsData(cardsFromAPI);
       }
     }
     fetchBoards();
@@ -73,12 +82,7 @@ function App() {
   const selectBoard = (event) => {
     const inputValue = event.target.value;
     setSelectedBoardId(inputValue);
-    const boardTitle = boardsData.filter(board => {
-      if (board.id == inputValue) {
-      return board;
-      }
-    });
-    setSelectedBoardTitle(boardTitle[0].title);
+    getSelectedBoardTitle(inputValue);
     getAllCards(inputValue);
   };
 
