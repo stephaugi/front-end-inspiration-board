@@ -22,3 +22,19 @@
   color: white;
   cursor: pointer;
 }
+
+#board-views {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-content: center;
+}
+
+.board-control { 
+  display: flex; 
+  align-items: center; 
+  gap: 0.5em; 
+  justify-content: center;
+}

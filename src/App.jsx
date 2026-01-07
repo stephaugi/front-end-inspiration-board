@@ -3,6 +3,8 @@ import './App.css';
 import NewBoardForm from './components/NewBoardForm';
 import Board from './components/Board';
 import Modal from './components/Modal';
+import SelectBoardToView from './components/SelectBoardToView';
+import SelectHowToSortCards from './components/SelectHowToSortCards';
 
 import { 
   convertBoardFromAPI, 
@@ -14,6 +16,8 @@ import {
   getAllCardsAPI, 
   likeCardForAPI 
 } from './utilities/APIHelpers';
+
+import { } from './utilities/AppHelpers';
 
 import { 
   sortAlphabeticallyAZ, 
@@ -116,85 +120,52 @@ function App() {
     return sortedCards;
   };
 
-  const makeControlledSelect = (inputName, boardsData) => {
-    const selectOptions = boardsData.map(board => {
-        return <option
-        className='selectBoard'
-        key={board.id}
-        value={board.id}>
-            {board.title}
-        </option>
-    });
-
-    return (
-      <>
-        <label htmlFor='boardSelectDropdown'>Select Board to View:</label>
-        <select id='boardSelectDropdown' name={inputName} onChange={selectBoard}>
-          {selectOptions}
-        </select>
-      </>
-      );
-  };
-
-  const makeSortSelect = () => {
-    return (
-      <>
-        <label htmlFor='selectSortingCardsOn'>Sort cards by</label>
-        <select id='selectSortingCardsOn'value={sortOption} onChange={handleSortChange}>
-          <option value="id_asc">Oldest first</option>
-          <option value="id_desc">Recent First</option>
-          <option value="a_z">A-Z</option>
-          <option value="z_a">Z-A</option>
-          <option value="likes_desc">Rating: high to low</option>
-        </select>
-      </>
-    )
-  }
-  const boards = <Board 
-        key={selectedBoardId}
-        boardId={selectedBoardId}
-        cardsData={getSortedCards()} // pass sorted cards
-        addLikes={addLikes}
-        deleteCard ={deleteCard}
-      />;
-  
-
-  return (<>
-    <header>
-      <h1>Four Seasons Inspiration Board</h1>
-    </header>
-    
-    <main>
-          <div className='collapsible-container'>
-      <button 
-        className={`collapsible ${isFormCollapsed ? '' : 'active'}`}
-        onClick={toggleFormCollapse}
-      >
-        {isFormCollapsed ? '➕' : '➖'} Create a New Board
-      </button> 
+  return (
+    <>
+      <header>
+        <h1>Four Seasons Inspiration Board</h1>
+      </header>
       
-      {!isFormCollapsed && (
-        <div className='collapsible-content'>
-          <NewBoardForm onFormSubmit={createNewBoard} />
+      <main>
+        <div className='collapsible-container'>
+          <button 
+            className={`collapsible ${isFormCollapsed ? '' : 'active'}`}
+            onClick={toggleFormCollapse}
+          >
+            {isFormCollapsed ? '➕' : '➖'} Create a New Board
+          </button> 
+        
+          {!isFormCollapsed && (
+            <div className='collapsible-content'>
+              <NewBoardForm onFormSubmit={createNewBoard} />
+            </div>
+          )}
         </div>
-      )}
-    </div>
-      
-      <div className='boardContainer'>
-        {makeControlledSelect('boards', boardsData)}
-      </div>
-      <div className='sortContainer'>
-        {makeSortSelect()}
-      </div>
-      {boards}
-      <Modal
-      onFormSubmit={createNewCard} currentBoardId={selectedBoardId}/>
-    </main>
 
-    <footer>
-      <p>Ada C24: Stephanie Lin Chen, Iris (Hok Yin) Cheung, Riley Drellishak, and Gina Song</p>
-    </footer>
-  </>
+        <div id='board-views'>
+          <SelectBoardToView boards={boardsData} selectBoard={selectBoard}/>
+          <SelectHowToSortCards sortOption={sortOption} handleSortChange={handleSortChange}/>
+        </div>
+
+        <Board 
+          key={selectedBoardId}
+          boardId={selectedBoardId}
+          cardsData={getSortedCards()}
+          addLikes={addLikes}
+          deleteCard ={deleteCard}
+        />
+
+        <Modal
+          onFormSubmit={createNewCard}
+          currentBoardId={selectedBoardId}
+        />
+      </main>
+
+      <footer>
+        <p>Ada C24: Stephanie Lin Chen, Iris (Hok Yin) Cheung, Riley Drellishak, and Gina Song</p>
+      </footer>
+
+    </>
   )
 }
 
