@@ -10,8 +10,9 @@ const kDefaultCardForm = {
 
 const NewCardForm = ({ onFormSubmit, selectedBoardId }) => {
     const [cardFormData, setCardFormData] = useState(kDefaultCardForm);
+    const [disableSubmit, setDisableSubmit] = useState(true)
+    const [errMsg, setErrMsg] = useState('Message cannot be empty!')
 
-    // make form
     const makeControlledInput = (inputName) => {
         return <>
         <input
@@ -34,36 +35,54 @@ const NewCardForm = ({ onFormSubmit, selectedBoardId }) => {
                 [inputName]: inputValue,
                 boardId: selectedBoardId
             };
-        })
+        });
+        setErrMsg(checkCharLength(inputValue));
+    };
+
+    const checkCharLength = (inputValue) => {
+        if (inputValue.length > 40) {
+            setDisableSubmit(true);
+            return 'Message must be under 40 characters!'
+        } else if (inputValue.length === 0) {
+            setDisableSubmit(true)
+            return 'Message cannot be empty!'
+        } else {
+            setDisableSubmit(false);
+            return '';
+        }
     };
 
     const handleSubmit = (event) => {
         event.preventDefault();
         onFormSubmit(cardFormData);
     };
-    return <>
-    <form onSubmit={handleSubmit}>
-        <div className='formContainer'>
-            <div>
-                <label htmlFor={'inputmessage'}>
-                    Message
-                    {makeControlledInput('message')}
-                </label>
+
+    return (
+    <>
+        <form onSubmit={handleSubmit}>
+            <div className='formContainer'>
+                <div>
+                    <label htmlFor={'inputmessage'}>
+                        Message
+                        {makeControlledInput('message')}
+                    </label>
+                    <p className='inputErrorMessage'>{errMsg}</p>
+                </div>
+                <div>
+                    <label htmlFor={'inputmessage'}>
+                    </label>
+                </div>
             </div>
-            <div>
-                <label htmlFor={'inputmessage'}>
-                </label>
-            </div>
-        </div>
-        <input className='submitButton' type='submit' value='Create Card'/>
-    </form>
+            <input className='submitButton' type='submit' value='Create Card' disabled={disableSubmit}
+            />
+        </form>
     </>
-    
+    )
 };
 
 NewCardForm.propType = {
     onFormSubmit: PropTypes.func.isRequired,
-    selectedBoard: PropTypes.number,
+    selectedBoardId: PropTypes.number.isRequired,
 }
 
 export default NewCardForm;
