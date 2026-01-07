@@ -211,20 +211,28 @@ function App() {
             {board.title}
         </option>
     });
-    return <select name={inputName} onChange={selectBoard}>
-    {selectOptions}
-    </select>;
+    return (
+      <>
+        <label htmlFor='boardSelectDropdown'>Select Board to View:</label>
+        <select id='boardSelectDropdown' name={inputName} onChange={selectBoard}>
+          {selectOptions}
+        </select>
+      </>
+      );
   };
 
   const makeSortSelect = () => {
     return (
-      <select value={sortOption} onChange={handleSortChange}>
-        <option value="id_asc">Oldest first</option>
-        <option value="id_desc">Recent First</option>
-        <option value="a_z">A-Z</option>
-        <option value="z_a">Z-A</option>
-        <option value="likes_desc">Rating: high to low</option>
-      </select>
+      <>
+        <label htmlFor='selectSortingCardsOn'>Sort cards by</label>
+        <select id='selectSortingCardsOn'value={sortOption} onChange={handleSortChange}>
+          <option value="id_asc">Oldest first</option>
+          <option value="id_desc">Recent First</option>
+          <option value="a_z">A-Z</option>
+          <option value="z_a">Z-A</option>
+          <option value="likes_desc">Rating: high to low</option>
+        </select>
+      </>
     )
   }
   const boards = <Board 
@@ -237,19 +245,29 @@ function App() {
   
 
   return (<>
-    <div className='boardFormLayout'>
-      <NewBoardForm onFormSubmit={createNewBoard} />
-    </div>
+    <header>
+      <h1>Four Seasons Inspiration Board</h1>
+    </header>
     
-    <div className='boardContainer'>
-      {makeControlledSelect('boards', boardsData)}
-    </div>
-    <div className='sortContainer'>
-      <div>Sort:</div>{makeSortSelect()}
-    </div>
-    {boards}
-    <Modal
-    onFormSubmit={createNewCard} currentBoardId={selectedBoardId}/>
+    <main>
+      <div className='boardFormLayout'>
+        <NewBoardForm onFormSubmit={createNewBoard} />
+      </div>
+      
+      <div className='boardContainer'>
+        {makeControlledSelect('boards', boardsData)}
+      </div>
+      <div className='sortContainer'>
+        {makeSortSelect()}
+      </div>
+      {boards}
+      <Modal
+      onFormSubmit={createNewCard} currentBoardId={selectedBoardId}/>
+    </main>
+
+    <footer>
+      <p>Ada C24: Stephanie Lin Chen, Iris (Hok Yin) Cheung, Riley Drellishak, and Gina Song</p>
+    </footer>
   </>
   )
 }
