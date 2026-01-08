@@ -1,17 +1,10 @@
 #root {
   max-width: 1280px;
-  margin: .5rem auto;
-  padding: 2rem;
+  margin: 0 auto;
+  /* padding: 2rem; */
   text-align: center;
 }
 
-.cardContainer {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-}
 
 h1 {
   font-family: "Fredoka", sans-serif;
@@ -30,10 +23,25 @@ h2 {
   font-variation-settings:
     "wdth" 100;
 }
+#board-container {
+  justify-items: center;
+}
 
+#board-title-container {
+  /* background-color: #667eea; */
+  display: flex;
+  justify-content: space-between;
+  width: 70vw;
+}
 
-.card {
-  padding: 2em;
+#board-title {
+  /* background-color: #52a24b; */
+  align-self: center;
+}
+
+#select-board {
+  /* background-color: cadetblue; */
+  align-self: center;
 }
 
 .collapsible {

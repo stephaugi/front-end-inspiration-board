@@ -1,11 +1,10 @@
 .cardContainer {
+  /* background-color: brown; */
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-}
-
-.card {
-  padding: 2em;
+  justify-content: space-around;
+  width: 80vw;
+  overflow: auto;
+  height: 60vh;
 }

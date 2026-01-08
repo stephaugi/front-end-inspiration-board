@@ -157,19 +157,19 @@ function App() {
         <div id='board-views'>
           <SelectBoardToView boards={boardsData} selectBoard={selectBoard}/>
         </div>
-        <div id='board-title'>
-          <h2>{selectedBoardTitle}</h2>
-          <SelectHowToSortCards sortOption={sortOption} handleSortChange={handleSortChange}/>
+        <div id='board-container'>
+          <div id='board-title-container'>
+              <h2 id='board-title'>{selectedBoardTitle}</h2>
+              <SelectHowToSortCards sortOption={sortOption} handleSortChange={handleSortChange}/>
+          </div>
+          <Board 
+            key={selectedBoardId}
+            boardId={selectedBoardId}
+            cardsData={getSortedCards()}
+            addLikes={addLikes}
+            deleteCard ={deleteCard}
+          />
         </div>
-
-        <Board 
-          key={selectedBoardId}
-          boardId={selectedBoardId}
-          cardsData={getSortedCards()}
-          addLikes={addLikes}
-          deleteCard ={deleteCard}
-        />
-
         <Modal
           onFormSubmit={createNewCard}
           currentBoardId={selectedBoardId}
