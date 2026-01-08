@@ -1,16 +1,13 @@
 #root {
   max-width: 1280px;
-  margin: .5rem auto;
-  padding: 2rem;
+  margin: 0 auto;
+  /* padding: 2rem; */
   text-align: center;
 }
 
-.cardContainer {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
+body {
+  background: linear-gradient(135deg, #BFA8EC 0%, #007DE3 100% );
+  color:white;
 }
 
 h1 {
@@ -30,16 +27,42 @@ h2 {
   font-variation-settings:
     "wdth" 100;
 }
+#board-container {
+  justify-items: center;
+}
 
+#board-title-container {
+  /* background-color: #667eea; */
+  display: flex;
+  justify-content: space-between;
+  width: 70vw;
+}
 
-.card {
-  padding: 2em;
+#board-title {
+  align-self: center;
+}
+
+#select-board {
+  align-self: center;
 }
 
 .collapsible {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
+  /* background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); */
+  font-weight: bolder;
+  background:white;
+  color: rgb(41, 106, 196);
+  width: 100%;
   cursor: pointer;
+}
+
+.collapsible-container {
+  border-radius: .5rem;
+  color: rgb(41, 106, 196);
+  background-color: white;
+  width: 30vw;
+  position: relative;
+  align-items: center;
+  justify-self: center;
 }
 
 #board-views {

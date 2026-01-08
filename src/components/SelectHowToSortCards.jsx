@@ -1,6 +1,6 @@
 const SelectHowToSortCards = ({ sortOption, handleSortChange }) => {
   return (
-    <div className="board-control">
+    <div id="select-board">
       <label htmlFor='selectSortingCardsOn'>Sort Cards By: </label>
       <select id='selectSortingCardsOn'value={sortOption} onChange={handleSortChange}>
         <option value="id_asc">Oldest first</option>
