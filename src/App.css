@@ -1,12 +1,12 @@
 #root {
   max-width: 1280px;
   margin: 0 auto;
-  /* padding: 2rem; */
+  padding-top: 2rem;
   text-align: center;
 }
 
 body {
-  background: linear-gradient(135deg, #BFA8EC 0%, #007DE3 100% );
+  background: linear-gradient(180deg, #BFA8EC 0%, #007DE3 100% );
   color:white;
 }
 
@@ -48,7 +48,6 @@ h2 {
 }
 
 .collapsible {
-  /* background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); */
   font-weight: bolder;
   background:white;
   color: #4F92F7;
@@ -60,7 +59,7 @@ h2 {
   border-radius: .5rem;
   color: #4F92F7;
   background-color: white;
-  width: 30vw;
+  width: 20rem;
   position: relative;
   align-items: center;
   justify-self: center;
