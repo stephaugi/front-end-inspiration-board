@@ -4,18 +4,17 @@ import Card from './Card';
 
 const Board = ({ boardId, cardsData, addLikes, deleteCard }) => {
 
-    const cards = cardsData.map((cardData) => {
+    const cards = cardsData.map((cardData, i) => {
     return <Card 
-      key={cardData.id}
-      card={cardData}
-      onAddLike={addLikes}
-      onDeleteCard={deleteCard}
+        key={cardData.id}
+        card={cardData}
+        onAddLike={addLikes}
+        onDeleteCard={deleteCard}
+        nthCard={i}
     />;
     });
     return (
         <>
-            {/* <h4>{board.title}</h4>
-            <p>Owner: {board.owner}</p> */}
             <div className='cardContainer'>
                 {cards}
             </div>

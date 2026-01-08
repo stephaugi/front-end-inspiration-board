@@ -14,10 +14,12 @@ const Card = ({card, onAddLike, onDeleteCard, nthCard}) => {
         onDeleteCard(id);
     };
     
+    const nthCardStyle = { "--i": nthCard }
+
     const deleteButton = cardHover && <button className='deleteButton--style' onClick={handleDeleteCard}>x</button>
 
     return <>
-    <article className='card--style' onMouseOver={()=>setCardHover(true)} 
+    <article className='card--style' style={nthCardStyle} onMouseOver={()=>setCardHover(true)} 
     onMouseOut={()=>setCardHover(false)}>
         {deleteButton}
         <div className='cardContent--style'>
