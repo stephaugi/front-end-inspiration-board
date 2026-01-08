@@ -132,7 +132,7 @@ function App() {
   return (
     <>
       <link rel="preconnect" href="https://fonts.googleapis.com" />
-      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+      <link rel="preconnect" href="https://fonts.gstatic.com"/>
       <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet"/>
       <header>
         <h1>Four Seasons Inspiration Board</h1>
@@ -144,7 +144,7 @@ function App() {
             className={`collapsible ${isFormCollapsed ? '' : 'active'}`}
             onClick={toggleFormCollapse}
           >
-            {isFormCollapsed ? '➕' : '➖'} Create a New Board
+            {isFormCollapsed ? '+' : '-'} Create a New Board
           </button> 
         
           {!isFormCollapsed && (
