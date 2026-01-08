@@ -1,11 +1,11 @@
 .submitButton {
     border-radius: 2rem;
     border: none;
-    background-color: rgb(208, 246, 253);
+    background-color: #4F92F7;
     padding: 1rem;
     font-weight: 800;
     font-size: medium;
-    color:#007DE3(41, 106, 196);
+    color:#ffffff;
 }
 
 .inputField {

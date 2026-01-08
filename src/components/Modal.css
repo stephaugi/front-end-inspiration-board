@@ -3,7 +3,8 @@
     font-weight: 900;
     font-size: larger;
     transform: scale(1);
-    background-color: rgb(208, 246, 253);
+    background-color: rgb(255, 255, 255);
+    color: #4F92F7;
     width: 4rem;
     height: 4rem;
     border-radius: 8rem;
@@ -52,7 +53,7 @@
 }
 
 .formContainer {
-    color: rgb(41, 106, 196);
+    color: #4F92F7;
     margin: 2rem;
     border-radius: 8px;
 }

@@ -14,16 +14,16 @@ h1 {
   font-family: "Fredoka", sans-serif;
   font-optical-sizing: auto;
   font-weight: 600;
-  font-style: normal;
+  font-style: bold;
   font-variation-settings:
     "wdth" 100;
 }
 
 h2 {
   font-family: "Fredoka", sans-serif;
-  font-optical-sizing: auto;
-  font-weight: 600;
-  font-style: normal;
+  font-size: 2rem;
+  font-weight: 1000;
+  font-style: bold;
   font-variation-settings:
     "wdth" 100;
 }
@@ -32,8 +32,9 @@ h2 {
 }
 
 #board-title-container {
-  /* background-color: #667eea; */
+  /* background-color: #1cd16b; */
   display: flex;
+  height: 10vh;
   justify-content: space-between;
   width: 70vw;
 }
@@ -50,19 +51,20 @@ h2 {
   /* background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); */
   font-weight: bolder;
   background:white;
-  color: rgb(41, 106, 196);
+  color: #4F92F7;
   width: 100%;
   cursor: pointer;
 }
 
 .collapsible-container {
   border-radius: .5rem;
-  color: rgb(41, 106, 196);
+  color: #4F92F7;
   background-color: white;
   width: 30vw;
   position: relative;
   align-items: center;
   justify-self: center;
+  margin-bottom: 1rem;
 }
 
 #board-views {

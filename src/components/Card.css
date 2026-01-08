@@ -18,8 +18,8 @@
     text-align: center;
     padding: .1rem;
     border-radius: 2rem;
-    background-color: rgba(255, 255, 255, 0.5);
-    color: rgb(150, 156, 175);
+    background-color: rgb(221, 221, 221);
+    color: rgb(255, 255, 255);
     transition-property: opacity;
     transition-duration: 500ms;
     @starting-style {
@@ -28,7 +28,7 @@
 }
 
 .card--style {
-    color: rgb(41, 106, 196);
+    color: #4F92F7;
     background-color: rgb(255, 255, 255);
     border-radius: 1rem;
     height: 15rem;
