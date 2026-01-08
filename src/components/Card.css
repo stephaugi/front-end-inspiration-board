@@ -28,7 +28,8 @@
 }
 
 .card--style {
-    background-color: lightblue;
+    color: rgb(41, 106, 196);
+    background-color: rgb(255, 255, 255);
     border-radius: 1rem;
     height: 15rem;
     width: 15rem;
@@ -48,14 +49,10 @@
         translate: 0 1rem; */
     }
 }
-.card--style.fade-out {
-    opacity: 0;
-    display: none;
-}
 
 
 .cardMessage--style {
-    font-size: medium;
+    font-size: x-large;
     font-weight: 900;
 }
 

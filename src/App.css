@@ -5,6 +5,10 @@
   text-align: center;
 }
 
+body {
+  background: linear-gradient(135deg, #BFA8EC 0%, #007DE3 100% );
+  color:white;
+}
 
 h1 {
   font-family: "Fredoka", sans-serif;
@@ -35,19 +39,30 @@ h2 {
 }
 
 #board-title {
-  /* background-color: #52a24b; */
   align-self: center;
 }
 
 #select-board {
-  /* background-color: cadetblue; */
   align-self: center;
 }
 
 .collapsible {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
+  /* background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); */
+  font-weight: bolder;
+  background:white;
+  color: rgb(41, 106, 196);
+  width: 100%;
   cursor: pointer;
+}
+
+.collapsible-container {
+  border-radius: .5rem;
+  color: rgb(41, 106, 196);
+  background-color: white;
+  width: 30vw;
+  position: relative;
+  align-items: center;
+  justify-self: center;
 }
 
 #board-views {
