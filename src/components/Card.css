@@ -18,8 +18,8 @@
     text-align: center;
     padding: .1rem;
     border-radius: 2rem;
-    background-color: rgba(255, 255, 255, 0.5);
-    color: rgb(150, 156, 175);
+    background-color: rgb(221, 221, 221);
+    color: rgb(255, 255, 255);
     transition-property: opacity;
     transition-duration: 500ms;
     @starting-style {
@@ -28,18 +28,31 @@
 }
 
 .card--style {
-    background-color: lightblue;
+    color: #4F92F7;
+    background-color: rgb(255, 255, 255);
     border-radius: 1rem;
     height: 15rem;
     width: 15rem;
     padding: 1rem;
-    margin: 2rem;
+    margin: 1rem;
     position: relative;
     font-weight: 600;
+    transition: all 0.25s;
+    transition-property: opacity, display;
+    transition-timing-function: ease-in-out;
+    transition-duration: 2s;
+    transition-delay: calc(var(--i) * 150ms);
+    transition-behavior: allow-discrete;
+    @starting-style {
+        opacity: 0;
+        /* scale: .8;
+        translate: 0 1rem; */
     }
+}
+
 
 .cardMessage--style {
-    font-size: medium;
+    font-size: x-large;
     font-weight: 900;
 }
 

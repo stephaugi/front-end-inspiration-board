@@ -133,7 +133,7 @@ function App() {
     <>
       <link rel="preconnect" href="https://fonts.googleapis.com" />
       <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-      <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600&display=swap" rel="stylesheet" />
+      <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet"/>
       <header>
         <h1>Four Seasons Inspiration Board</h1>
       </header>
@@ -157,19 +157,19 @@ function App() {
         <div id='board-views'>
           <SelectBoardToView boards={boardsData} selectBoard={selectBoard}/>
         </div>
-        <div id='board-title'>
-          <h2>{selectedBoardTitle}</h2>
-          <SelectHowToSortCards sortOption={sortOption} handleSortChange={handleSortChange}/>
+        <div id='board-container'>
+          <div id='board-title-container'>
+              <h2 id='board-title'>{selectedBoardTitle}</h2>
+              <SelectHowToSortCards sortOption={sortOption} handleSortChange={handleSortChange}/>
+          </div>
+          <Board 
+            key={selectedBoardId}
+            boardId={selectedBoardId}
+            cardsData={getSortedCards()}
+            addLikes={addLikes}
+            deleteCard ={deleteCard}
+          />
         </div>
-
-        <Board 
-          key={selectedBoardId}
-          boardId={selectedBoardId}
-          cardsData={getSortedCards()}
-          addLikes={addLikes}
-          deleteCard ={deleteCard}
-        />
-
         <Modal
           onFormSubmit={createNewCard}
           currentBoardId={selectedBoardId}

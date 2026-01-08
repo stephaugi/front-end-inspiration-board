@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
-// import './NewBoardForm.css';
+import './NewBoardForm.css';
 
 const kDefaultBoardForm = {
     title: '',
@@ -12,6 +12,7 @@ const NewBoardForm = ({ onFormSubmit }) => {
     const makeControlledInput = (inputName, placeholder) => {
         return <>
         <input
+        className='inputField'
         type='text'
         name={inputName}
         id={`input-${inputName}`}
@@ -43,7 +44,7 @@ const handleSubmit = (event) => {
     };
 return <>
         <section className="new-board-form">
-            <h3>Create a New Board</h3>
+            {/* <h3>Create a New Board</h3> */}
             
             <form onSubmit={handleSubmit}>
                 <div className="form-group">
@@ -56,7 +57,7 @@ return <>
                     {makeControlledInput('owner', 'Your name...')}
                 </div>
 
-                <button type="submit">Create Board</button>
+                <button className="submitButton" type="submit">Create Board</button>
             </form>
         </section>
     </>;
