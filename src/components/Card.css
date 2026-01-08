@@ -36,7 +36,23 @@
     margin: 1rem;
     position: relative;
     font-weight: 600;
+    transition: all 0.25s;
+    transition-property: opacity, display;
+    transition-timing-function: ease-in-out;
+    transition-duration: 2s;
+    transition-delay: calc(var(--i) * 150ms);
+    transition-behavior: allow-discrete;
+    @starting-style {
+        opacity: 0;
+        /* scale: .8;
+        translate: 0 1rem; */
     }
+}
+.card--style.fade-out {
+    opacity: 0;
+    display: none;
+}
+
 
 .cardMessage--style {
     font-size: medium;
