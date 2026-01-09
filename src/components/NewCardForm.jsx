@@ -2,17 +2,19 @@ import { useState } from 'react';
 import PropTypes from 'prop-types';
 import './NewCardForm.css';
 
-const kDefaultCardForm = {
-    message: '',
-    likesCount: 0,
-    boardId: ''
-};
 
 const NewCardForm = ({ onFormSubmit, selectedBoardId }) => {
+    const kDefaultCardForm = {
+    message: '',
+    likesCount: 0,
+    boardId: selectedBoardId
+    };
+
     const [cardFormData, setCardFormData] = useState(kDefaultCardForm);
     const [disableSubmit, setDisableSubmit] = useState(true)
     const [errMsg, setErrMsg] = useState('Message cannot be empty!')
 
+    
     const makeControlledInput = (inputName) => {
         return <>
         <input
@@ -55,6 +57,7 @@ const NewCardForm = ({ onFormSubmit, selectedBoardId }) => {
     const handleSubmit = (event) => {
         event.preventDefault();
         onFormSubmit(cardFormData);
+        setCardFormData(kDefaultCardForm);
     };
 
     return (
